@@ -25,6 +25,12 @@ import { Chip } from "@mui/material";
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import Collapse from "@material-ui/core/Collapse";
 
 // import ExpandMoreIcon from "@material-ui/core/ExpandMore";
 
@@ -36,6 +42,7 @@ import AcUnitIcon from "@material-ui/icons/AcUnit";
 import Img from '../assets/Avatar2.png'
 import SearchBox from "./main/SearchBox";
 import PostContent from "./main/PostContent";
+import { Work } from "@material-ui/icons";
 const myStyles = makeStyles({
   // root: {
   //   backgroundColor: '#ffffff',
@@ -85,6 +92,42 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
 
   },
+  ListItem: {
+    backgroundColor: "#fff",
+
+    '&:hover': {
+      backgroundColor: "#4F5E71"
+    }
+  },
+  accordion: {
+    boxShadow: "none"
+  },
+  subroot: {
+    width: "100%",
+    maxWidth: "360",
+  },
+  nested: {
+    paddingLeft: theme.spacing(5),
+    cursor: "pointer",
+    '&:hover': {
+      backgroundColor: "#00a58e",
+      color: "#fff",
+
+    }
+  },
+  fold: {
+    width: "20px",
+    height: "20px",
+    borderRadius: "50%",
+    backgroundColor: "#f9f9f9",
+    color: "#ba5d00",
+
+    '&:hover': {
+      backgroundColor: '#090909',
+      color: "#fff"
+    }
+  }
+
 }));
 
 
@@ -113,7 +156,6 @@ const ListItems = ({ items, onClick }) =>
 function Appbar(props) {
   const { setOpenDialog, openDialog } = props;
   const { searchResults } = props
-  console.log(props)
 
   const contents = myStyles();
 
@@ -126,6 +168,36 @@ function Appbar(props) {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line 
   const [content, setContent] = useState('Home');
+  const [menu, setMenu] = useState(false);
+
+  const handleMenu = () => {
+
+    setMenu(!menu)
+  }
+  const [menu1, setMenu1] = useState(false);
+
+  const handleMenu1 = () => {
+
+    setMenu1(!menu1)
+  }
+  const [menu2, setMenu2] = useState(false);
+
+  const handleMenu2 = () => {
+
+    setMenu2(!menu2)
+  }
+  const [menu3, setMenu3] = useState(false);
+
+  const handleMenu3 = () => {
+
+    setMenu3(!menu3)
+  }
+  const [menu4, setMenu4] = useState(false);
+
+  const handleMenu4 = () => {
+
+    setMenu4(!menu4)
+  }
 
 
 
@@ -164,7 +236,7 @@ function Appbar(props) {
       { label: "Olivia Rhyne", url: <img src={Img} alt="" />, Icon: RemoveIcon },
       { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon },
       { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon },
-      { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon, data: "hello" },
+      { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon },
     ]
   });
 
@@ -179,7 +251,7 @@ function Appbar(props) {
       <Divider />
 
 
-      <List>
+      {/* <List className={classes.ListItem}>
         <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold" }}>Announcement</ListSubheader>
         <ListItems items={items.announcement} onClick={onClick} />
         <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold", display: "flex", alignItems: "center", }}><BookOutlinedIcon style={{ marginRight: "15px" }} />Classroom</ListSubheader>
@@ -194,13 +266,136 @@ function Appbar(props) {
         <ListItems items={items.projects} onClick={onClick} />
 
         <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold", display: "flex", alignItems: "center", }}><MailOutlineIcon style={{ fontSize: "20px", marginRight: "15px" }} />Direct Messagges</ListSubheader>
-        {/* <Box sx={{display: "flex"}}> */}
 
         <ListItems items={items.messages} onClick={onClick} />
 
-        {/* </Box> */}
-      </List>
+      </List> */}
       {/* </ListContent> */}
+      <div className={classes.subroot}>
+
+        <List component="nav">
+          <ListItem button onClick={handleMenu} style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography style={{ color: "#ba5d00", fontWeight: "bold" }}>
+              {"Announcement"}
+            </Typography>
+            {menu ? <ExpandLess className={classes.fold} /> : <ExpandMore className={classes.fold} />}
+          </ListItem>
+          <Collapse in={menu} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <List button className={classes.nested}>
+                <ListItemText primary="General Announcement" />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="Classroom Announcements" />
+              </List>
+            </List>
+          </Collapse>
+          <ListItem button onClick={handleMenu1} style={{ display: "flex", justifyContent: "space-between" }}>
+            <Box style={{ display: "flex", justifyContent: "space-between" }}>
+              <BookOutlinedIcon style={{ color: "#ba5d00", marginLeft: "-10px" }} />
+              <Typography primary="classroom" style={{ color: "#ba5d00", fontWeight: "bold", marginLeft: "5px" }} >
+                Classroom
+              </Typography>
+            </Box>
+            {menu1 ? <ExpandLess className={classes.fold} /> : <ExpandMore className={classes.fold} />}
+          </ListItem>
+          <Collapse in={menu1} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <List button className={classes.nested}>
+                <ListItemText primary="Course outlines" />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="Class Schedule" />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="Assignments" />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="My Grades" />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="Class Resources" />
+              </List>
+            </List>
+          </Collapse>
+          <ListItem button onClick={handleMenu2} style={{ display: "flex", justifyContent: "space-between" }}>
+            <Box style={{ display: "flex", alignItems: "center" }}>
+              <AcUnitIcon style={{ color: "#ba5d00", marginLeft: "-10px" }} />
+              <Typography style={{ color: "#ba5d00", fontWeight: "bold", marginLeft: "5px" }}>
+                {"Communities"}
+              </Typography>
+            </Box>
+            {menu2 ? <ExpandLess className={classes.fold} /> : <ExpandMore className={classes.fold} />}
+          </ListItem>
+          <Collapse in={menu2} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <List button className={classes.nested} style={{ display: "flex" }}>
+                <ListItemText primary="FutureLabs HQ" />
+                <Chip label="+10" style={{ color: "#0172cb", fontWeight: "bold", marginRight: "20px" }} />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="Design 2023 " />
+              </List>
+            </List>
+          </Collapse>
+          <ListItem button onClick={handleMenu3} style={{ display: "flex", justifyContent: "space-between" }}>
+            <Box style={{ display: "flex", alignItems: "center" }}>
+              <WorkOutlineIcon style={{ color: "#ba5d00", marginLeft: "-10px" }} />
+              <Typography style={{ color: "#ba5d00", fontWeight: "bold", marginLeft: "5px" }}>
+                {"Projects"}
+              </Typography>
+            </Box>
+            {menu3 ? <ExpandLess className={classes.fold} /> : <ExpandMore className={classes.fold} />}
+          </ListItem>
+          <Collapse in={menu3} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <List button className={classes.nested}>
+                <ListItemText primary="FutureLabs HQ" />
+              </List>
+              <List button className={classes.nested}>
+                <ListItemText primary="Design 2023 " />
+              </List>
+            </List>
+          </Collapse>
+          <ListItem button onClick={handleMenu4} style={{ display: "flex", justifyContent: "space-between" }}>
+            <Box style={{ display: "flex", alignItems: "center" }}>
+              <MailOutlineIcon style={{ color: "#ba5d00", marginLeft: "-10px" }} />
+              <Typography style={{ color: "#ba5d00", fontWeight: "bold", marginLeft: '5px' }}>
+                {'Messages'}
+              </Typography>
+            </Box>
+            {menu4 ? <ExpandLess className={classes.fold} /> : <ExpandMore className={classes.fold} />}
+          </ListItem>
+          <Collapse in={menu4} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <List button className={classes.nested}>
+                <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
+                  <img src={Img} alt="" />
+                  <ListItemText primary="Olivia Rhyne" />
+                </Box>
+              </List>
+              <List button className={classes.nested}>
+                <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
+                  <img src={Img} alt="" />
+                  <ListItemText primary="Olivia Rhyne" />
+                </Box>
+              </List>
+              <List button className={classes.nested}>
+                <Box style={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
+                  <img src={Img} alt="" />
+                  <ListItemText primary="Olivia Rhyne" />
+                </Box>
+              </List>
+              <List button className={classes.nested}>
+                <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
+                  <img src={Img} alt="" />
+                  <ListItemText primary="Olivia Rhyne" />
+                </Box>
+              </List>
+            </List>
+          </Collapse>
+        </List>
+      </div>
     </div>
   );
 
@@ -223,26 +418,18 @@ function Appbar(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Box sx={{ display: "flex", color: " black", justifyContent: "space-between", alignItems: "center", width: "90%" }}>
-              <Box sx={{ display: "flex", color: " black", border: "solid red", justifyContent: "space-between", alignItems: "center", width: "60%", flexWrap: "wrap" }}>
-                <Box>
+            <Box sx={{ display: "flex", color: " black", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+              <Box >
+                <Box className="navText">
 
-                  <Typography variant="h6" component={"p"} noWrap sx={{ color: "black", fontSize: { lg: "10px", xs: "10px", sm: "0.1px", md: "0.5px" } }}>
+                  <Typography variant="h6" component={"p"}  >
                     General Announcement
                   </Typography>
-                  <PostContent />
+                  {/* <PostContent /> */}
 
                 </Box>
-                {/* <button onClick={() => setOpenDialog(!openDialog)}>Create Post</button> */}
-                <Box
-                  sx={{
-                    width: '300px',
-
-                  }}
-                >
-                </Box>
-                {/* <SearchBox onSearchResults={searchResults} /> */}
               </Box>
+              <SearchBox onSearchResults={searchResults} />
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{}}>
                   <NotificationsNoneIcon />
@@ -274,6 +461,7 @@ function Appbar(props) {
               onClose={handleDrawerToggle}
               classes={{
                 paper: classes.drawerPaper,
+
               }}
               ModalProps={{
                 keepMounted: true, // Better open performance on mobile.
@@ -295,7 +483,8 @@ function Appbar(props) {
           </Hidden>
         </nav>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
+          <div className={classes.toolbar}>
+          </div>
 
         </main>
       </div>
@@ -303,12 +492,5 @@ function Appbar(props) {
   );
 }
 
-// Appbar.propTypes = {
-//   /**
-//    * Injected by the documentation to work in an iframe.
-//    * You won't need it on your project.
-//    */
-//   window: PropTypes.func,
-// };
 
 export default Appbar;

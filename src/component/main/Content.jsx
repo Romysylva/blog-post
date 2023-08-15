@@ -80,12 +80,12 @@ const Content = ({ id, onHandleReaction, onShowCardDetails, openPost, onSearchPo
                 posts?.map((item, index) => (
 
                     <Paper elevation={2} sx={{ my: 2, width: "100%", cursor: "pointer" }} key={index} >
-                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <Box sx={{ mx: 2 }}>
-                                    <Avatar src={item.author.avatar} alt={item.username} />
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
+                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap"}}>
+                                <Box >
+                                    <Avatar src={item.author.avatar} alt={item.username}   className="allign"/>
                                 </Box>
-                                <Box>
+                                <Box sx={{ marginLeft: "20px" }}>
                                     <Typography variant="subtitel" sx={{ textTransform: "capitalize", fontWeight: "bold" }}>
                                         {item.author.fullname}
                                     </Typography>
@@ -97,7 +97,7 @@ const Content = ({ id, onHandleReaction, onShowCardDetails, openPost, onSearchPo
                                     </Typography>
                                 </Box>
                             </Box>
-                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", m: 1, }}>
+                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", }} >
 
                                 {(() => {
                                     if (item.reaction === 0) {
@@ -110,7 +110,7 @@ const Content = ({ id, onHandleReaction, onShowCardDetails, openPost, onSearchPo
                                                     <FavoriteBorder style={{ cursor: "pointer", color: "#00a58e" }} onClick={() => handlePostReaction(item.id)} />
                                                 </Box>
                                                 <Box>
-                                                    <Typography style={{ fontWeight: "600" }} variant="body2" component={'p'}>{item.reaction}</Typography>
+                                                    <Typography  style={{ fontWeight: "600" }} variant="body2" component={'p'}>{item.reaction}</Typography>
                                                 </Box>
                                             </Box>
                                         )
@@ -122,7 +122,7 @@ const Content = ({ id, onHandleReaction, onShowCardDetails, openPost, onSearchPo
                                                     <FavoriteIcon style={{ color: "#00a58e", cursor: "pointer" }} onClick={() => handlePostReaction(item.id)} />
                                                 </Box>
                                                 <Box>
-                                                    <Typography style={{ color: "#00a58e", fontWeight: "600" }} variant="body2" component={'p'}>{item.reaction} reactions</Typography>
+                                                    <Typography  style={{ color: "#00a58e", fontWeight: "600" }} variant="body2" component={'p'}>{item.reaction} <span className="">reactions</span></Typography>
                                                 </Box>
                                             </Box>
                                         )

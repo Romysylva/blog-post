@@ -33,6 +33,7 @@ const useStyles = makeStyles({
 
 function PaperComponent(props) {
 
+
     return (
         <Draggable
             handle="#draggable-dialog-title"
@@ -42,6 +43,7 @@ function PaperComponent(props) {
         </Draggable>
     );
 }
+
 
 
 const Feedproject = ({
@@ -57,6 +59,16 @@ const Feedproject = ({
     onHandleReaction,
     user
 }) => {
+
+    const [open, setOpen] = useState(true);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
 
     const classes = useStyles();
@@ -80,6 +92,8 @@ const Feedproject = ({
     }, [id])
 
     console.log(comments)
+
+
 
 
 

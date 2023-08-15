@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
-// import { data } from "./component/context/index";
 import { dataContext } from "./Context";
 import Content from "./component/main/Content";
 import Container from "@mui/material/Container";
@@ -11,7 +10,6 @@ import Feedproject from "./component/feedback/Feedproject";
 import Appbar from "./component/Appbar";
 import api from "./api/Articles"
 import FeedMenuOverlay from "./component/feedback/FeedMenuOverlay";
-import PostContent from "./component/main/PostContent";
 import SearchBox from "./component/main/SearchBox";
 
 const useStyles = makeStyles({
@@ -33,7 +31,6 @@ const useStyles = makeStyles({
 function App({ id, searchPost
 }) {
     const classes = useStyles()
-    // const [user, setUser] = useState([...data]);
 
     const [posts, setPosts] = useState([]);
     const [show, setShow] = useState(null);
@@ -133,12 +130,11 @@ function App({ id, searchPost
             <div className={classes.app} style={{}}>
 
                 <FeedMenuOverlay openPost={openPost} setOpenPost={setOpenPost} />
-                <SearchBox />
                 <dataContext.Provider value={posts}>
-                    <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }} >
 
                         <Container>
-                            <Box sx={{ width: "90%", display: "flex", margin: "auto", }}>
+                            <Box sx={{ width: "100%", display: "flex", margin: "auto", }} >
 
                                 {
 

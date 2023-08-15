@@ -1,6 +1,6 @@
 .app {
   /* display:none; */
-  max-width: 1200px;
+  max-width: 1000px;
   margin: auto;
 }
 
@@ -68,5 +68,11 @@
 }
 .showDialog.active {
   top: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .navText {
+    font-size: 10px;
+  }
 }
 /*# sourceMappingURL=index.css.map */

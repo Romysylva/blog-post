@@ -60,13 +60,14 @@ const RenderComments = ({
                 console.log(response.data.results)
                 setComments
                     (response.data?.results)
+                    
             } catch (err) {
                 console.log(`Error: ${err.message}`)
             }
 
 
         }
-        renderComments(...comments)
+        renderComments()
     }, [id])
     return (
         <div>

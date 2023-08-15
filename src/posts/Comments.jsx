@@ -108,6 +108,7 @@ const Comments = ({ id }) => {
         } catch (err) {
             console.log(`Error: ${err.message}`)
         }
+        document.location.reload();
 
     }
 

@@ -6,3 +6,10 @@ $warning-c: #ffbb33;
 $bg-h: -70px !default;
 $light-c: #faf9f7;
 $dark-c: #0a000e;
+
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
