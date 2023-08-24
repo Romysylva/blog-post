@@ -1,29 +1,9 @@
-.app {
-  /* display:none; */
-  max-width: 1000px;
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 1200px;
   margin: auto;
-}
-
-.showFeed {
-  display: block;
-}
-
-.menu {
-  width: 400px;
-  height: 100vh;
-  position: fixed;
-  top: 50px;
-  right: -400px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  transition: all 0.5s ease;
-  overflow-y: auto;
-}
-.menu.active {
-  right: 0;
 }
 
 .newheight {
@@ -32,6 +12,9 @@
   height: fit-content;
   overflow-y: auto;
   padding-bottom: 50px;
+  height: 100vh;
+  position: fixed;
+  top: 50px;
 }
 
 .newheight::-webkit-scrollbar {
@@ -54,25 +37,53 @@
   right: 0;
 }
 
-.showDialog {
-  position: fixed;
-  top: -400px;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease;
-  z-index: 2;
-  max-width: 400px;
-  margin: auto;
-  background-color: #000;
-  color: #fff;
-  padding: 10px 0;
-}
-.showDialog.active {
-  top: 0;
-}
-
 @media only screen and (max-width: 600px) {
   .navText {
     font-size: 10px;
+    display: none;
   }
+  .small {
+    flex-wrap: wrap;
+  }
+  .allign {
+    margin-left: -70px;
+  }
+  .aligntop {
+    margin-top: -40px;
+  }
+  .moveLeft {
+    margin-left: -15px;
+  }
+  .menu {
+    width: 370px;
+    height: 100vh;
+    position: fixed;
+    top: 50px;
+    right: -370px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: all 0.5s ease;
+    overflow-y: auto;
+  }
+  .menu.active {
+    right: 0;
+  }
+  .app {
+    margin-left: 0 !important;
+  }
+  .search {
+    display: none;
+  }
+  body {
+    margin-left: 0;
+    background-color: #feffff;
+  }
+}
+.app {
+  margin-left: 0;
+  background-color: #feffff;
 }
 /*# sourceMappingURL=index.css.map */

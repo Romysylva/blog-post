@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 import { fade, makeStyles } from "@material-ui/core";
@@ -21,17 +21,15 @@ const useStyles = makeStyles(theme => ({
         overflow: "hidden",
         borderRadius: 5,
         backgroundColor: "#fff",
-        transition: theme.transitions.create(["border-color", "box-shadow"]),
+        // transition: theme.transitions.create(["border-color", "box-shadow"]),
         width: "300px",
-        height: "fit-content",
         padding: "20px",
         outline: "none",
         border: "none",
+        marginLeft: "px",
 
 
         "&:hover": {
-            backgroundColor: "#0172cb",
-            color: "#fff"
         },
         "&$focused": {
             backgroundColor: "#fff",
@@ -43,9 +41,9 @@ const useStyles = makeStyles(theme => ({
 
     commentStyle: {
         position: "fixed",
-        bottom: "0",
+        bottom: "20px",
         zIndex: "2",
-        background: "#1E2938",
+        background: "#fff",
         color: "#fff",
 
     },
@@ -53,14 +51,22 @@ const useStyles = makeStyles(theme => ({
         color: '#0172cb',
 
     },
+    textfiled: {
+        padding: "30x"
+    }
 
 }));
 
 
-const Comments = ({ id }) => {
+const Comments = ({
+    id,
+    getComments,
+    fetchPosts
+}) => {
     const [selectedImage, setSelectedImage] = useState(null)
     const [text, setText] = useState('')
     const [url, setObjectURL] = useState('')
+    const [resets, setResets] = useState(false)
     const classes = useStyles()
 
     const handleImage = (event) => {
@@ -81,6 +87,7 @@ const Comments = ({ id }) => {
 
     const modifiedImageUrl = removeBlob(url)
     console.log(modifiedImageUrl)
+    // eslint-disable-next-line 
     const [postComment, setPostcomment] = useState(
         {
             "text": "",
@@ -88,12 +95,14 @@ const Comments = ({ id }) => {
         }
     );
 
+
     const Post = {
         text: text,
         image: selectedImage
     }
-
     const handlePostComment = async () => {
+
+        setResets(!resets)
         const url = `/articles/${id}/comments/`;
         const config = {
             headers: {
@@ -108,77 +117,93 @@ const Comments = ({ id }) => {
         } catch (err) {
             console.log(`Error: ${err.message}`)
         }
-        document.location.reload();
 
+        // finally {
+        // }
+        if (getComments) {
+            getComments();
+        }
+        setText(' ')
     }
+
+    useEffect(() => {
+
+        setText(' ')
+    }, [resets])
+
+    // const handleChange = (e) => {
+    //     setText(e.target.value)
+
+    // }
 
 
     return (
-        <Container style={{ borderRadius: "5px", width: "370px", mb: 2, }} className={classes.commentStyle} >
+        <Container sx={{ borderRadius: "5px", width: "350px", py: 1, }} className={classes.commentStyle}  >
+            <Box sx={{ border: " 1px solid lightgrey", width: "340px", marginLeft: "-20px", p: 1, borderRadius: "5px" }}>
 
-
-            <Box sx={{ pt: 4 }}>
-                <form action="">
-                    <TextField color='primary' label="Reply..." type='text' name='text' id='text' onChange={(e) => setText(e.target.value)} className={classes.root} />
-                </form>
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between", height: "50px", alignItems: "center", cursor: "pointer", }}>
-
-                <Box style={{ width: "100%", color: "gray" }}>
-                    <TextField className={classes.textAreaStylle}
-                        sx={{ border: "none", }}
-                        id="choose-file"
-                        required
-                        InputProps={{
-
-                            endAdornment: (
-                                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "-200px", color: "gray" }}>
-                                    <IconButton
-                                        aria-label='upload'
-                                        component="label"
-                                    >
-                                        <AddCircleIcon style={{ color: "grey" }} />
-                                        <input type='file'
-                                            hidden
-                                            onChange={handleImage}
-                                            name='image'
-                                            id='image'
-                                        />
-
-                                    </IconButton>
-
-                                    <FormatColorTextIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
-                                    <MoodIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
-                                    <AlternateEmailIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
-                                    <VoiceChatOutlinedIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
-                                    <MicNoneIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
-                                </Box>
-                            )
-                        }}
-
-                    />
+                <Box >
+                    <form action="">
+                        <TextField
+                            autoComplete='off'
+                            // autoFocus="on" 
+                            value={text}
+                            style={{ paddingBottom: "50px", }}
+                            color='primary' placeholder="Reply..."
+                            type='text' name='text' id='text'
+                            onChange={(e) => setText(e.target.value)}
+                            className={classes.root}
+                            sx={{
+                                "& fieldset": { border: '1px solid lightgrey' },
+                            }}
+                        />
+                    </form>
                 </Box>
-                <Box><SendIcon className={classes.textAreaStylle} onClick={() => handlePostComment(id)} /></Box>
+
+                <Box sx={{ display: "flex", justifyContent: "space-between", height: "50px", alignItems: "center", cursor: "pointer", }}>
+
+                    <Box style={{ width: "100%", color: "gray", paddingBottom: "20px", }}>
+                        <TextField className={classes.textAreaStylle}
+                            id="choose-file"
+                            required
+                            sx={{
+                                "& fieldset": { border: 'none' },
+                            }}
+                            InputProps={{
+
+                                endAdornment: (
+                                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "-190px", color: "gray", }}>
+                                        <IconButton
+                                            aria-label='upload'
+                                            component="label"
+                                        >
+                                            <AddCircleIcon style={{ color: "grey" }} />
+                                            <input type='file'
+                                                hidden
+                                                onChange={handleImage}
+                                                name='image'
+                                                id='image'
+                                            />
+
+                                        </IconButton>
+
+                                        <FormatColorTextIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
+                                        <MoodIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
+                                        <AlternateEmailIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
+                                        <VoiceChatOutlinedIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
+                                        <MicNoneIcon style={{ marginLeft: "6px", fontSize: "20px", cursor: "pointer " }} />
+                                    </Box>
+                                )
+                            }}
+
+                        />
+                    </Box>
+                    <Box style={{ paddingBottom: "20px" }}><SendIcon className={classes.textAreaStylle} onClick={() => handlePostComment(id)} /></Box>
+                </Box>
             </Box>
+
 
 
         </Container>
-
-
-        // < div >
-        // <form onSubmit={handlePostComment}>
-
-        //     {/* <input type='text' name='text' id='text' onChange={(e) => handelPost(e)} /> */}
-        //     <input type='text' name='text' id='text' onChange={(e) => setText(e.target.value)} />
-        //     <input type="file" name='image' id='image' onChange={handleImage} />
-
-        //     <button type='submit'>send</button>
-        //     {/* <input type="submit" /> */}
-        // </form>
-        // </ >
-
-
     )
 }
 

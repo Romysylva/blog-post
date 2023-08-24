@@ -1,42 +1,80 @@
 import { useState, useContext, useEffect } from 'react'
 import { dataContext } from '../../Context'
-import api from "../../api/Articles"
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            width: '300px',
+        },
+    },
+
+}));
 
 const SearchBox = () => {
+    const classes = useStyles();
 
-    // const [...posts] = useContext(dataContext)
+    const [...posts] = useContext(dataContext)
+    console.log('post recieve from context', posts)
+    const resource = [...posts]
+    let newResources = []
 
-    const [search, SetSearch] = useState(
-        {
-            Posts: [],
-            searchFiled: " "
-        }
-    )
-    useEffect(() => {
+    const [search, setSearch] = useState(resource)
+    let updatedResources = [...posts]
 
-        const getPost = async () => {
-            try {
-                const response = await api.get('/articles/')
-                console.log(response.data?.results)
-                SetSearch(response.data?.results)
-
-            } catch (err) {
-                console.log(`Error: ${err.message}`)
+    const searcresults = (event) => {
+        const query = event.target.value;
+        updatedResources = updatedResources.filter((item, index) => {
+            if (Object.keys(item) === searcresults) {
+                return resource === item[`${searcresults}`]
+            } else {
+                newResources.push(posts);
+                return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
             }
-        }
-        getPost()
-    }, [])
-    const searchResults = (event) => {
-        SetSearch({ searchFiled: event.target.value })
+        });
+        return setSearch(newResources)
     }
 
-    // const searchPost = search.Posts.filter(item => {
-    //     return item.title.toLowerCase().includes(search.searchFiled.toLowerCase())
-    // })
+    // useEffect(() => {
+    //     searcresults()
+    // }, [])
+
+    // const searcresults = (event) => {
+    //     const query = event.target.value.toLowerCase();
+
+    //     const filteredResources = updatedResources.filter((item) => {
+    //         // Check if any of the keys contain the query
+    //         for (const key in item) {
+    //             if (typeof item[key] === 'string' && item[key].toLowerCase().includes(query)) {
+    //                 return true;
+    //             }
+    //         }
+    //         return false;
+    //     });
+
+    //     setSearch(filteredResources);
+    // };
+
+    console.log(resource)
+
     return (
-        <div>
-            <input type='search' placeholder='search anything here...' onChange={searchResults} />
+        <div className='search'>
+            <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                    id="outlined-basic"
+                    label="search anything here..."
+                    variant="outlined"
+                    onChange={searcresults}
+                    inputProps={{
+                        style: {
+                            height: "5px",
+
+                        }
+                    }}
+                />
+            </form>
 
 
         </div>
@@ -44,3 +82,5 @@ const SearchBox = () => {
 }
 
 export default SearchBox;
+
+

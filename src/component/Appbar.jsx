@@ -13,51 +13,38 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme, } from '@material-ui/core/styles';
+import { darken, makeStyles, useTheme, } from '@material-ui/core/styles';
 import { Box } from '@mui/material';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import AddIcon from "@material-ui/icons/Add"
-import RemoveIcon from "@material-ui/icons/Remove"
-import ShowChartIcon from "@material-ui/icons/ShowChart";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import { Chip } from "@mui/material";
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import Collapse from "@material-ui/core/Collapse";
 
-// import ExpandMoreIcon from "@material-ui/core/ExpandMore";
 
 
 
 // #ba5d00 #E8EDF1 #697D95 #4F5E71
 
 
-import Img from '../assets/Avatar2.png'
+import Img from '../assets/Avatar.png'
+import Img2 from '../assets/Avatar1.png'
 import SearchBox from "./main/SearchBox";
-import PostContent from "./main/PostContent";
-import { Work } from "@material-ui/icons";
-const myStyles = makeStyles({
-  // root: {
-  //   backgroundColor: '#ffffff',
 
 
-  // },
-});
 
 const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    width: "100%",
-    backgroundColor: theme.palette.background.paper
+    // width: "100%",
+    backgroundColor: "#fff"
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -69,32 +56,25 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      // marginLeft: drawerWidth,
+      boxShadow: "0 0 2px lightgrey"
     },
-
-
   },
-
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-
   },
   ListItem: {
     backgroundColor: "#fff",
-
     '&:hover': {
       backgroundColor: "#4F5E71"
     }
@@ -107,13 +87,28 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "360",
   },
   nested: {
-    paddingLeft: theme.spacing(5),
+    paddingLeft: theme.spacing(4),
     cursor: "pointer",
+    width: "95%",
+    margin: "auto",
+    borderRadius: "5px",
     '&:hover': {
       backgroundColor: "#00a58e",
       color: "#fff",
+    },
+  },
+  nested1: {
+    paddingLeft: theme.spacing(5),
+    cursor: "pointer",
+    width: "95%",
+    margin: "auto",
+    borderRadius: "5px",
+    backgroundColor: "#00a58e",
+    color: "#fff",
+    '&:hover': {
+      backgroundColor: darken('#00a58e', .3),
 
-    }
+    },
   },
   fold: {
     width: "20px",
@@ -126,11 +121,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#090909',
       color: "#fff"
     }
+  },
+  notificationD: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "70%",
+    // border: "solid red",
+    flexWrap: "wrap-reverse",
   }
 
+
 }));
-
-
 
 const ListItems = ({ items, onClick }) =>
   items
@@ -154,10 +156,8 @@ const ListItems = ({ items, onClick }) =>
 
 
 function Appbar(props) {
-  const { setOpenDialog, openDialog } = props;
   const { searchResults } = props
 
-  const contents = myStyles();
 
   const { window } = props;
   const classes = useStyles();
@@ -199,9 +199,6 @@ function Appbar(props) {
     setMenu4(!menu4)
   }
 
-
-
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -210,35 +207,6 @@ function Appbar(props) {
     setOpen(false);
     setContent(content);
   };
-
-  const [items] = useState({
-    announcement: [
-      { label: "General Announcement", Icon: AddIcon },
-      { label: "Classroom Announcements", Icon: RemoveIcon },
-    ],
-    classroom: [
-      { label: "Course outlines", Icon: RemoveIcon, },
-      { label: "Class Schedule", Icon: ShowChartIcon },
-      { label: "Assignments", Icon: ShowChartIcon },
-      { label: "My Grades", Icon: ShowChartIcon },
-      { label: "Class Resources", Icon: ShowChartIcon },
-    ],
-    Communities: [
-      { label: "FutureLabs HQ", Icon: RemoveIcon, data: <Chip label="+10" style={{ color: "#0172cb", fontWeight: "bold" }} /> },
-      { label: "Design 2023 ", Icon: ShowChartIcon }
-
-    ],
-    projects: [
-      // {label: "Add Network", Icon: RemoveIcon, disabled: true},
-      // {label: "Usage", Icon: ShowChartIcon},
-    ],
-    messages: [
-      { label: "Olivia Rhyne", url: <img src={Img} alt="" />, Icon: RemoveIcon },
-      { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon },
-      { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon },
-      { url: <img src={Img} alt="" />, label: "Olivia Rhyne", Icon: RemoveIcon },
-    ]
-  });
 
   const drawer = (
     <div>
@@ -250,27 +218,6 @@ function Appbar(props) {
 
       <Divider />
 
-
-      {/* <List className={classes.ListItem}>
-        <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold" }}>Announcement</ListSubheader>
-        <ListItems items={items.announcement} onClick={onClick} />
-        <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold", display: "flex", alignItems: "center", }}><BookOutlinedIcon style={{ marginRight: "15px" }} />Classroom</ListSubheader>
-        <ListItems items={items.classroom} onClick={onClick} />
-        <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold", display: "flex", alignItems: "center" }}><AcUnitIcon style={{ marginRight: "15px" }} />Communities</ListSubheader>
-        <ListItems items={items.Communities} onClick={onClick} />
-        <Box sx={{ display: "flex", alignItems: "center", px: 2 }}>
-          <AddIcon style={{ fontSize: "20px", marginRight: "20px" }} /><Typography style={{ fontWeight: "bold" }}>{"Create a Community"}</Typography>
-        </Box>
-        <br />
-        <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold", display: "flex", alignItems: "center" }}><WorkOutlineIcon style={{ marginRight: "15px" }} />Projects</ListSubheader>
-        <ListItems items={items.projects} onClick={onClick} />
-
-        <ListSubheader style={{ color: "#ba5d00", fontWeight: "bold", display: "flex", alignItems: "center", }}><MailOutlineIcon style={{ fontSize: "20px", marginRight: "15px" }} />Direct Messagges</ListSubheader>
-
-        <ListItems items={items.messages} onClick={onClick} />
-
-      </List> */}
-      {/* </ListContent> */}
       <div className={classes.subroot}>
 
         <List component="nav">
@@ -282,7 +229,7 @@ function Appbar(props) {
           </ListItem>
           <Collapse in={menu} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <List button className={classes.nested}>
+              <List button className={classes.nested1}>
                 <ListItemText primary="General Announcement" />
               </List>
               <List button className={classes.nested}>
@@ -331,13 +278,17 @@ function Appbar(props) {
             <List component="div" disablePadding>
               <List button className={classes.nested} style={{ display: "flex" }}>
                 <ListItemText primary="FutureLabs HQ" />
-                <Chip label="+10" style={{ color: "#0172cb", fontWeight: "bold", marginRight: "20px" }} />
+                <Chip label="+10" style={{ color: "#0172cb", fontWeight: "bold", marginRight: "10px", fontSize: "12px", width: "47px", }} />
               </List>
               <List button className={classes.nested}>
                 <ListItemText primary="Design 2023 " />
               </List>
             </List>
           </Collapse>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <AddIcon />
+            <Typography component={"p"} variant="subtitle" style={{ fontWeight: 'bold', marginLeft: "10px" }}>Create a community</Typography>
+          </Box>
           <ListItem button onClick={handleMenu3} style={{ display: "flex", justifyContent: "space-between" }}>
             <Box style={{ display: "flex", alignItems: "center" }}>
               <WorkOutlineIcon style={{ color: "#ba5d00", marginLeft: "-10px" }} />
@@ -371,25 +322,25 @@ function Appbar(props) {
               <List button className={classes.nested}>
                 <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" />
+                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
                 </Box>
               </List>
               <List button className={classes.nested}>
                 <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
-                  <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" />
+                  <img src={Img} alt="user" />
+                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
                 </Box>
               </List>
               <List button className={classes.nested}>
                 <Box style={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" />
+                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
                 </Box>
               </List>
               <List button className={classes.nested}>
                 <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" />
+                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
                 </Box>
               </List>
             </List>
@@ -402,7 +353,7 @@ function Appbar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div className={'showDialog' + (openDialog && "active")}>
+    <div >
       <div className={classes.root}>
         <CssBaseline />
 
@@ -429,24 +380,24 @@ function Appbar(props) {
 
                 </Box>
               </Box>
-              <SearchBox onSearchResults={searchResults} />
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Box sx={{}}>
-                  <NotificationsNoneIcon />
-                </Box>
-                <Box sx={{ display: "flex", gap: "5px", justifyContent: "center", alignItems: "center" }}>
+              <div className="search" >
+                <SearchBox onSearchResults={searchResults} />
+              </div>
+              {/* <div className={classes.notificationD} > */}
+              <Box sx={{ display: "flex", gap: "5px", justifyContent: "center", alignItems: "center" }}>
+                <NotificationsNoneIcon style={{ marginRight: "40px" }} />
 
-                  <img src={Img} alt="" />
-                  <Box>
-                    <Typography variant='p' component={'h4'}>
-                      Olivia Rhye
-                    </Typography>
-                    <Typography variant='p' component={"p"}>
-                      FL-23432
-                    </Typography>
-                  </Box>
+                <img src={Img2} alt="person" />
+                <Box>
+                  <Typography variant='p' component={'h4'}>
+                    Olivia Rhye
+                  </Typography>
+                  <Typography variant='p' component={"p"}>
+                    FL-23432
+                  </Typography>
                 </Box>
               </Box>
+              {/* </div> */}
             </Box>
           </Toolbar>
         </AppBar>

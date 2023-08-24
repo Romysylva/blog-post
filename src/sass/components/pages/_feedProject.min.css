@@ -1,1 +1,1 @@
-.menu{width:400px;height:100vh;position:fixed;top:50px;right:-400px;z-index:3;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:all .5s ease;overflow-y:auto}.menu.active{right:0}.newheight{height:fit-content;overflow-y:auto;padding-bottom:50px}.newheight::-webkit-scrollbar{display:none}
+.newheight{overflow-y:auto;padding-bottom:50px;height:100vh;position:fixed;top:50px}.newheight::-webkit-scrollbar{display:none}

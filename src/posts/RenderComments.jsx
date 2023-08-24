@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { dataContext } from '../Context';
+import React, { useState, useEffect } from 'react'
 import { Typography, Box } from "@mui/material";
 import { FavoriteBorder } from "@material-ui/icons";
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -10,35 +9,23 @@ import api from "../api/Articles";
 
 const RenderComments = ({
     id,
-    text,
-    title,
-    image,
-    reaction,
     created_at,
-    author,
-    openPost,
-    onHandleReaction,
     comments,
     setComments,
-    user
+    fetchPosts
 }) => {
-
-
-
-    // const [getcomments, setGetComments] = useState([])
 
     const [commentsReeaction, setCommnentsReaction] = useState([])
 
-    const commentReactions = async () => {
-        const reaction = {
-            "comment": 0,
-            "status": false
-        }
+    const commentReactions = async (d) => {
+
         try {
-            const response = await api.post(`/articles/${id}/comments/${id}/reaction`, reaction);
+            const response = await api.post(`/articles/${id}/comments/${d}/reaction`, {
+                "comment": 0
+            });
             console.log(response.data)
             const serverResponse = response.data
-            setCommnentsReaction(commentsReeaction.map((item) => {
+            setCommnentsReaction(serverResponse.map((item) => {
                 if (item.id === id) {
                     return { ...item, reaction: item.reaction + 1 }
                 } else {
@@ -48,36 +35,60 @@ const RenderComments = ({
         } catch (err) {
             console.log(`Error: ${err.message}`)
         }
+
+        renderComments();
+
     }
 
 
 
-    useEffect(() => {
-        const renderComments = async () => {
+    const renderComments = async () => {
 
-            try {
-                const response = await api.get(`/articles/${id}/comments/`);
-                console.log(response.data.results)
-                setComments
-                    (response.data?.results)
-                    
-            } catch (err) {
-                console.log(`Error: ${err.message}`)
-            }
+        try {
+            const response = await api.get(`/articles/${id}/comments/`);
+            console.log(response.data.results)
+            setComments
+                (response.data?.results)
 
-
+        } catch (err) {
+            console.log(`Error: ${err.message}`)
         }
+
+
+    }
+    useEffect(() => {
         renderComments()
-    }, [id])
+    }, [id]);
+
+
+
+
+    const formate = (date) => {
+
+        const options = {
+            year: "numeric",
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+        };
+        const formattedDate = new Date(date).toLocaleDateString('en-Us', options) //format(newDate);
+
+        const [month, day, year, hour, minute] = formattedDate.split(' ');
+
+        return `${day} ${month} ${year} ${hour} ${minute}`
+    }
+
+
     return (
         <div>
             {
                 comments.map((item, index) => {
                     return (
 
-                        <Box key={index}>
+                        <Box key={index} sx={{ border: "1px solid #f2f2f2", my: 2, px: 1, borderRadius: '5px' }}>
 
-                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pt: 2 }}>
+                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pt: 2, }}>
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <Box sx={{ mx: 2 }}>
                                         {<Avatar src={item.user.avatar} alt="user" />}
@@ -99,13 +110,13 @@ const RenderComments = ({
 
                                         (() => {
                                             if (item.reaction === 0) {
-                                                return <FavoriteBorder style={{ cursor: "pointer" }} onClick={() => commentReactions(id)} />
+                                                return <FavoriteBorder style={{ cursor: "pointer" }} onClick={() => commentReactions(item.id)} />
                                             } else if (item.reaction < 10) {
                                                 return (
                                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                         <Box>
 
-                                                            <FavoriteBorder style={{ cursor: "pointer", color: "#00a58e" }} onClick={() => commentReactions(id)} />
+                                                            <FavoriteBorder style={{ cursor: "pointer", color: "#00a58e" }} onClick={() => commentReactions(item.id)} />
                                                         </Box>
                                                         <Box>
                                                             <Typography style={{ fontWeight: "600" }} variant="body2" component={'p'}>{item.reaction}</Typography>
@@ -117,10 +128,10 @@ const RenderComments = ({
                                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "30px" }}>
                                                         <Box>
 
-                                                            <FavoriteIcon style={{ color: "#00a58e", cursor: "pointer" }} onClick={() => commentReactions(id)} />
+                                                            <FavoriteIcon style={{ color: "#00a58e", cursor: "pointer" }} onClick={() => commentReactions(item.id)} />
                                                         </Box>
                                                         <Box>
-                                                            <Typography style={{ color: "#00a58e", fontWeight: "600" }} variant="body2" component={'p'}>{reaction} reactions</Typography>
+                                                            <Typography style={{ color: "#00a58e", fontWeight: "600" }} variant="body2" component={'p'}>{item.reaction} reactions</Typography>
                                                         </Box>
                                                     </Box>
                                                 )
@@ -131,16 +142,19 @@ const RenderComments = ({
 
                                 </Box>
                             </Box>
+                            <Box sx={{ pt: 2, borderRadius: "5px" }}>
+
+                                {item.image ? <img src={item.image} alt="user" style={{ width: "100%", borderRadius: "5px" }} /> : ""}
+                            </Box>
                             <Box sx={{ mx: 2 }}>
                                 <Typography variant="body2" sx={{ fontWeight: "normal", py: 2 }} style={{ color: "#697D95" }}>
                                     {item.text}
                                 </Typography>
                             </Box>
                             <Box>
-                                {item.image ? <img src={item.image} alt="user" style={{ width: "100%" }} /> : ""}
 
                                 <Typography variant="body2" component="p">
-                                    {created_at}
+                                    {formate(created_at)}
                                 </Typography>
                             </Box>
 

@@ -1,9 +1,10 @@
 .app {
-  /* display:none; */
-  max-width: 1024px;
-  margin: auto;
+  width: 100%;
+  background-color: #f9f9f9;
+  margin-left: 250px;
 }
 
 .showFeed {
   display: block;
 }
+/*# sourceMappingURL=App.css.map */

@@ -8,37 +8,68 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Feedproject from "./component/feedback/Feedproject";
 import Appbar from "./component/Appbar";
-import api from "./api/Articles"
-import FeedMenuOverlay from "./component/feedback/FeedMenuOverlay";
-import SearchBox from "./component/main/SearchBox";
+import api from "./api/Articles";
+import NewAppbar from "./component/NewAppbar"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
 
     },
     app: {
-        maxWidth: "1024px",
+        maxWidth: "1200px",
         margin: "auto",
-        // border: "solid red",
-        // display: "flex",
-        // justifyContent: "center"
+        marginLeft: "270px",
+        alignItems: "center"
     },
     appbar: {
         width: "100%"
+    },
+    control: {
+        height: " fit-content",
+        overflowY: "auto",
+        paddingBottom: "50px",
+    },
+    root1: {
+        flexGrow: 1
+    },
+    Paper: {
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary
     }
-})
+}));
 
-function App({ id, searchPost
-}) {
+
+const App = ({ id, searchPost, handlePostReaction, renderComments }) => {
     const classes = useStyles()
 
     const [posts, setPosts] = useState([]);
     const [show, setShow] = useState(null);
     const [openPost, setOpenPost] = useState(false);
     const [openDialog, setOpenDialog] = useState(false)
-    const [count, setCount] = useState([])
 
 
+    const [showFeed, setShowFeed] = useState(false)
+
+    console.log('post recieve from context', posts)
+    const resource = [...posts]
+    let newResources = []
+
+    const [search, setSearch] = useState(resource)
+    let updatedResources = [...posts]
+
+    const searcresults = (event) => {
+        const query = event.target.value;
+        updatedResources = updatedResources.filter((item, index) => {
+            if (Object.keys(item) === searcresults) {
+                return resource === item[`${searcresults}`]
+            } else {
+                newResources.push(posts);
+                return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+            }
+        });
+        return setSearch(newResources)
+    }
 
     const handleMenuOpen = () => {
         if (openPost) {
@@ -51,120 +82,98 @@ function App({ id, searchPost
     }
 
 
+    const handelShowFeed = () => {
+        setShowFeed(!showFeed)
+    }
 
 
-    useEffect(() => {
+    const fetchPosts = async () => {
 
-        const fetchPosts = async () => {
-
-            try {
-                const response = await api.get('/articles/');
-                console.log(response.data?.results)
-                const result = response.data.results;
-                setPosts(result)
-
-            } catch (err) {
-
-                if (err.response) {
-                    console.log(err.response.data);
-                    console.log(err.response.status);
-                    console.log(err.response.headers);
-
-                } else {
-                    console.log(`Error: ${err.message}`);
-                }
-
-            }
-
-        }
-
-        fetchPosts();
-
-    }, [])
-
-    // useEffect(() => {
-    //     const handelgetReaction = async () => {
-    //         try {
-    //             const response = await api.get(`/articles/${id}/reaction/`);
-    //             console.log(response.data.results);
-    //             setGetReaction(response.data.results)
-    //         } catch (err) {
-    //             console.log(`Error: ${err.message}`);
-
-    //         }
-    //     }
-    //     handelgetReaction();
-    // }, [id])
-
-
-    // const [count, setCount] = useState([]);
-
-    useEffect(() => {
-        const handlecount = async () => {
+        try {
             const response = await api.get('/articles/');
-            console.log(response.data.count)
-            setCount(response.data.count)
+            console.log(response.data?.results)
+            const result = response.data.results;
+            setPosts(result)
 
+
+        } catch (err) {
+
+            if (err.response) {
+                console.log(err.response.data);
+                console.log(err.response.status);
+                console.log(err.response.headers);
+
+            } else {
+                console.log(`Error: ${err.message}`);
+            }
         }
 
-        handlecount();
-
+    }
+    useEffect(() => {
+        // handelSort()
+        fetchPosts();
     }, [])
-
-
-
-
 
     const showCards = (id) => {
         setShow(id);
         handleMenuOpen();
-
+        handelShowFeed()
     };
 
+    const handelSort = () => {
+        setPosts([...posts].sort((a, b) => b.reaction - a.reaction));
+        fetchPosts();
 
-
-
+    }
     return (
         <>
-            <Appbar setOpenDialog={setOpenDialog} openDialog={openDialog} className={classes.appbar} />
-            <div className={classes.app} style={{}}>
+            <div className={classes.app}>
 
-                <FeedMenuOverlay openPost={openPost} setOpenPost={setOpenPost} />
+                {/* <FeedMenuOverlay openPost={openPost} setOpenPost={setOpenPost} /> */}
                 <dataContext.Provider value={posts}>
-                    <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }} >
+                    <Appbar setOpenDialog={setOpenDialog} openDialog={openDialog} className={classes.appbar}
+                        {...posts}
+                    />
+                    {/* <NewAppbar/> */}
 
-                        <Container>
-                            <Box sx={{ width: "100%", display: "flex", margin: "auto", }} >
+                    <Box sx={{ display: "flex", gap: "20px" }}>
+                        <Box sx={{ width: "70%",  }} >
 
+                            {
+
+                                <Content
+                                    {...posts}
+                                    onShowCardDetails={showCards}
+                                    openPost={openPost}
+                                    id={id}
+                                    onSearchPost={searchPost}
+                                    fetchPosts={fetchPosts}
+                                    search={search}
+                                />
+                            }
+                        </Box>
+
+                        <Box sx={{ width: "30%"}}>
+                            <Paper variant="outline" >
                                 {
+                                    show?.id
+                                        ? <Feedproject
+                                            {...show}
+                                            {...posts}
+                                            openPost={openPost}
+                                            setOpenPost={() => setOpenPost(false)}
+                                            showFeed={showFeed}
+                                            setShowFeed={() => setShow(null)}
+                                            onHandleReaction={handlePostReaction}
+                                            fetchPosts={fetchPosts}
+                                        // renderComments={renderComments}
 
-                                    <Content
-                                        {...posts}
-                                        onShowCardDetails={showCards}
-                                        openPost={openPost}
-                                        setOpenPost={setOpenPost}
-                                        id={id}
-                                        onSearchPost={searchPost}
-                                    />
+
+                                        />
+                                        : null
                                 }
-                            </Box>
-                            <Box sx={{ width: "30%" }}>
-                                <Paper variant="outline">
-                                    {
-                                        show?.id
-                                            ? <Feedproject
-                                                {...show}
-                                                {...posts}
-
-                                                openPost={openPost}
-                                                setOpenPost={setOpenPost}
-
-                                            />
-                                            : null
-                                    }
-                                </Paper>
-                            </Box>
-                        </Container>
+                            </Paper>
+                        </Box>
                     </Box>
                 </dataContext.Provider>
             </div>
