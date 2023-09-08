@@ -66,6 +66,9 @@ const Content = ({
         }
         // handleReaction(id);
         fetchPosts()
+        // onShowCardDetails();
+
+
     }
 
     // const handleReaction = (id) => {
@@ -105,7 +108,7 @@ const Content = ({
             {
                 posts?.map((item, index) => (
 
-                    <Paper sx={{ my: 2,  cursor: "pointer", p: 1, boxShadow: "none" }} key={index} >
+                    <Paper sx={{ my: 2, cursor: "pointer", p: 1, boxShadow: "none" }} key={index} >
                         <Box sx={{ border: "1px solid #f1f3f3", borderRadius: "5px" }}>
                             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, pt: 2, pb: 4 }} >
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }} className='moveLeft'>
@@ -174,7 +177,7 @@ const Content = ({
                                     <Chip label={<InsertCommentIcon style={{ color: "#0172cb", marginTop: "10px", fontSize: "25px" }} />} style={{ height: "30px", borderRadius: "0", maxWidth: "45px" }} /><Typography marginLeft={"5px"} fontWeight={"bold"} className={classes.root}>{item.comments} Replies</Typography>
                                 </Box>
                                 <Box sx={{ display: "flex" }} >
-                                    <Typography onClick={() => { onShowCardDetails(item) }} style={{ fontWeight: "500" }}>view Replies</Typography>
+                                    <Typography onClick={() => { onShowCardDetails(item,index) }} style={{ fontWeight: "500" }}>view Replies</Typography>
                                     <ChevronRightOutlinedIcon style={{ color: "#00a58e" }} />
 
                                 </Box>

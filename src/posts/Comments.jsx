@@ -23,10 +23,8 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "#fff",
         // transition: theme.transitions.create(["border-color", "box-shadow"]),
         width: "300px",
-        padding: "20px",
         outline: "none",
         border: "none",
-        marginLeft: "px",
 
 
         "&:hover": {
@@ -49,6 +47,7 @@ const useStyles = makeStyles(theme => ({
     },
     textAreaStylle: {
         color: '#0172cb',
+        marginRight: "20px"
 
     },
     textfiled: {
@@ -123,12 +122,12 @@ const Comments = ({
         if (getComments) {
             getComments();
         }
-        setText(' ')
+        setText('')
     }
 
     useEffect(() => {
 
-        setText(' ')
+        setText('')
     }, [resets])
 
     // const handleChange = (e) => {
@@ -138,30 +137,33 @@ const Comments = ({
 
 
     return (
-        <Container sx={{ borderRadius: "5px", width: "350px", py: 1, }} className={classes.commentStyle}  >
-            <Box sx={{ border: " 1px solid lightgrey", width: "340px", marginLeft: "-20px", p: 1, borderRadius: "5px" }}>
+        <Container sx={{ borderRadius: "5px", width: "350px", py: 1, marginLeft: "10px" }} className={classes.commentStyle}  >
+            <Box sx={{ border: " 1px solid lightgrey", width: "340px", marginLeft: "-25px", p: 1, borderRadius: "5px" }}>
 
                 <Box >
                     <form action="">
                         <TextField
                             autoComplete='off'
                             // autoFocus="on" 
+                            // value={'Reply...'}
                             value={text}
-                            style={{ paddingBottom: "50px", }}
+                            style={{ paddingBottom: "20px", }}
                             color='primary' placeholder="Reply..."
                             type='text' name='text' id='text'
                             onChange={(e) => setText(e.target.value)}
                             className={classes.root}
                             sx={{
                                 "& fieldset": { border: '1px solid lightgrey' },
+                                marginLeft: "10px",
+
                             }}
                         />
                     </form>
                 </Box>
 
-                <Box sx={{ display: "flex", justifyContent: "space-between", height: "50px", alignItems: "center", cursor: "pointer", }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
 
-                    <Box style={{ width: "100%", color: "gray", paddingBottom: "20px", }}>
+                    <Box style={{ width: "100%", color: "gray", }}>
                         <TextField className={classes.textAreaStylle}
                             id="choose-file"
                             required
@@ -197,7 +199,7 @@ const Comments = ({
 
                         />
                     </Box>
-                    <Box style={{ paddingBottom: "20px" }}><SendIcon className={classes.textAreaStylle} onClick={() => handlePostComment(id)} /></Box>
+                    <Box ><SendIcon className={classes.textAreaStylle} onClick={() => handlePostComment(id)} /></Box>
                 </Box>
             </Box>
 

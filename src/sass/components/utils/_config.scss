@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 $base-c: #1f0129 !default; 
 $base__2-c: #2ce1f6;
 $shadow-c: #024243;
@@ -19,3 +19,27 @@ $dark-c: #0a000e;
 
 
 // }
+
+
+html {
+    --scrollbarBG: #CFD8DC;
+    --thumbBG: #90A4AE;
+    --bgcol: #f9fefe;
+    --BGcol: #BA5D00;
+  }
+  body::-webkit-scrollbar {
+    width: 11px;
+  }
+  body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--thumbBG) var(--BGcol);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif
+  }
+  body::-webkit-scrollbar-track {
+    background: var(--bgcol);
+  }
+  body::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG) ;
+    border-radius: 6px;
+    border: 3px solid var(--scrollbarBG);
+  }

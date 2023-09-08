@@ -1,9 +1,27 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+html {
+  --scrollbarBG: #CFD8DC;
+  --thumbBG: #90A4AE;
+  --bgcol: #f9fefe;
+  --BGcol: #BA5D00;
+}
+
+body::-webkit-scrollbar {
+  width: 11px;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  max-width: 1200px;
-  margin-left: 270px;
-  border: solid red 1px;
-  height: 100vh;
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--BGcol);
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--bgcol);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
 }

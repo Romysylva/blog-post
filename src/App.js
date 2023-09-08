@@ -3,13 +3,11 @@ import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { dataContext } from "./Context";
 import Content from "./component/main/Content";
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Feedproject from "./component/feedback/Feedproject";
 import Appbar from "./component/Appbar";
 import api from "./api/Articles";
-import NewAppbar from "./component/NewAppbar"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,8 +16,9 @@ const useStyles = makeStyles((theme) => ({
     app: {
         maxWidth: "1200px",
         margin: "auto",
-        marginLeft: "270px",
-        alignItems: "center"
+        marginLeft: "300px",
+        alignItems: "center",
+        backgroundColor: "#fff"
     },
     appbar: {
         width: "100%"
@@ -45,8 +44,10 @@ const App = ({ id, searchPost, handlePostReaction, renderComments }) => {
 
     const [posts, setPosts] = useState([]);
     const [show, setShow] = useState(null);
+    const [index, setIndex] = useState(0);
     const [openPost, setOpenPost] = useState(false);
     const [openDialog, setOpenDialog] = useState(false)
+    const [feed, setFeed] = useState(false)
 
 
     const [showFeed, setShowFeed] = useState(false)
@@ -93,9 +94,12 @@ const App = ({ id, searchPost, handlePostReaction, renderComments }) => {
             const response = await api.get('/articles/');
             console.log(response.data?.results)
             const result = response.data.results;
-            setPosts(result)
+            setPosts([...result])
 
+            // if (feed) {
 
+                setShow(result[index])
+            // }
         } catch (err) {
 
             if (err.response) {
@@ -107,17 +111,19 @@ const App = ({ id, searchPost, handlePostReaction, renderComments }) => {
                 console.log(`Error: ${err.message}`);
             }
         }
-
     }
     useEffect(() => {
         // handelSort()
         fetchPosts();
+
     }, [])
 
-    const showCards = (id) => {
+    const showCards = (id, index = null) => {
+        setIndex(index)
         setShow(id);
         handleMenuOpen();
         handelShowFeed()
+        setFeed(!feed)
     };
 
     const handelSort = () => {
@@ -134,10 +140,8 @@ const App = ({ id, searchPost, handlePostReaction, renderComments }) => {
                     <Appbar setOpenDialog={setOpenDialog} openDialog={openDialog} className={classes.appbar}
                         {...posts}
                     />
-                    {/* <NewAppbar/> */}
-
                     <Box sx={{ display: "flex", gap: "20px" }}>
-                        <Box sx={{ width: "70%",  }} >
+                        <Box sx={{ width: "70%", }} >
 
                             {
 
@@ -153,22 +157,22 @@ const App = ({ id, searchPost, handlePostReaction, renderComments }) => {
                             }
                         </Box>
 
-                        <Box sx={{ width: "30%"}}>
+                        <Box sx={{ width: "30%" }}>
                             <Paper variant="outline" >
                                 {
                                     show?.id
                                         ? <Feedproject
                                             {...show}
                                             {...posts}
+                                            key={show?.reaction}
                                             openPost={openPost}
                                             setOpenPost={() => setOpenPost(false)}
                                             showFeed={showFeed}
                                             setShowFeed={() => setShow(null)}
                                             onHandleReaction={handlePostReaction}
                                             fetchPosts={fetchPosts}
+                                            showCards={showCards}
                                         // renderComments={renderComments}
-
-
                                         />
                                         : null
                                 }

@@ -83,6 +83,24 @@ const Feedproject = ({
         return `${day} ${month} ${year} ${hour} ${minute}`
     }
 
+    const handleFeedReaction = async (id) => {
+        try {
+            const res = await api.post(`/articles/${id}/reaction`, {
+                "articles": 0
+            });
+            console.log(res.data);
+
+        } catch (err) {
+            console.log(`Error: ${err.message}`);
+            console.log("clicked")
+        }
+
+        if (fetchPosts) {
+            fetchPosts()
+        }
+
+    }
+
     return (
 
         <div className={'menu ' + (openPost && "active")}>
@@ -90,7 +108,7 @@ const Feedproject = ({
                 <>
                     {/* <Divider sx={{ border: "solid red" }} /> */}
                     <Box >
-                        <Paper elevation={2} sx={{ mt: 2, p: 1, border: "1px solid #f9f9f9", borderRadius: "5px", boxShadow: "none" }} className="newheight" >
+                        <Paper elevation={2} sx={{ mt: 2, p: 1, borderRadius: "5px" }} className="newheight" >
                             <Box sx={{ my: 1, mx: 3, display: "flex", height: "50px", justifyContent: "space-between", alignItems: "center" }}>
                                 <Box>
                                     <Typography variant="subtitle1" component={'h4'} style={{ fontWeight: "bold" }}>{"General Announcement"}</Typography>
@@ -122,13 +140,13 @@ const Feedproject = ({
 
                                         {(() => {
                                             if (reaction === 0) {
-                                                return <FavoriteBorder style={{ cursor: "pointer" }} onClick={onHandleReaction} />
+                                                return <FavoriteBorder style={{ cursor: "pointer" }} onClick={() => handleFeedReaction(id)} />
                                             } else if (reaction < 10) {
                                                 return (
                                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                         <Box>
 
-                                                            <FavoriteBorder style={{ cursor: "pointer", color: "#00a58e" }} onClick={onHandleReaction} />
+                                                            <FavoriteBorder style={{ cursor: "pointer", color: "#00a58e" }} onClick={() => handleFeedReaction(id)} />
                                                         </Box>
                                                         <Box>
                                                             <Typography style={{ fontWeight: "600" }} variant="body2" component={'p'}>{reaction}</Typography>
@@ -140,7 +158,7 @@ const Feedproject = ({
                                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "30px" }}>
                                                         <Box>
 
-                                                            <FavoriteIcon style={{ color: "#00a58e", cursor: "pointer" }} onClick={onHandleReaction} />
+                                                            <FavoriteIcon style={{ color: "#00a58e", cursor: "pointer" }} onClick={() => handleFeedReaction(id)} />
                                                         </Box>
                                                         <Box>
                                                             <Typography style={{ color: "#00a58e", fontWeight: "600" }} variant="body2" component={'p'}>{reaction} reactions</Typography>
@@ -162,12 +180,12 @@ const Feedproject = ({
                                 </Box>
 
                                 <div style={{ padding: "20px" }}>
-                                    {image ? <img src={image} alt="user" style={{ width: "100%" }} className={classes.imageSize} /> : ""}
+                                    {image ? <img src={image} alt="user" className={classes.imageSize} /> : ""}
                                 </div>
                             </Box>
                             <hr />
                             <br />
-                            <Container sx={{ paddingBottom: "20px", }}>
+                            <Box sx={{ paddingBottom: "20px", marginRight: "10px"}}>
                                 <Typography variant='h6' component={"p"}>comments</Typography>
                                 <Divider style={{ marginBottom: "20px" }} />
                                 <RenderComments
@@ -183,8 +201,8 @@ const Feedproject = ({
                                     {...comments}
                                     fetchPosts={fetchPosts}
                                 />
-                            </Container>
-                            <Box sx={{ borderRadius: "5px", mt: 5, marginRight: "20px" }}>
+                            </Box>
+                            <Box sx={{ borderRadius: "5px", mt: 5 }}>
                                 <Comments
                                     id={id}
                                     fetchPosts={fetchPosts}

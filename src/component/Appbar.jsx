@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +8,6 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,6 +24,10 @@ import AcUnitIcon from "@material-ui/icons/AcUnit";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import Collapse from "@material-ui/core/Collapse";
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+
+
+
 
 
 
@@ -38,9 +41,24 @@ import SearchBox from "./main/SearchBox";
 
 
 
-const drawerWidth = 270;
+const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.6em'
+    },
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
+      backgroundColor: "#fafefe"
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: '#90A4AE',
+      // outline: '1px solid slategrey',
+      borderRadius: "6px",
+      border: "3px solid #CFD8DC"
+    }
+  },
   root: {
     display: 'flex',
     // width: "100%",
@@ -56,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      boxShadow: "0 0 2px lightgrey"
+      boxShadow: "0 0 3px grey"
     },
   },
   menuButton: {
@@ -72,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: "#fff"
   },
   ListItem: {
     backgroundColor: "#fff",
@@ -127,31 +146,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     width: "70%",
-    // border: "solid red",
     flexWrap: "wrap-reverse",
   }
 
 
 }));
 
-const ListItems = ({ items, onClick }) =>
-  items
-    .filter(({ hidden }) => !hidden)
-    .map(({ label, disabled, Icon, data, url }, i) => (
-      <ListItem
-        button
-        key={i}
-        disabled={disabled}
-        onClick={() => onClick(label, data, url)}
-      >
-        <ListItemIcon>
-          {/* <Icon/> */}
-          {url}
-        </ListItemIcon>
-        <ListItemText>{label}</ListItemText>
-        <ListItemText>{data}</ListItemText>
-      </ListItem>
-    ));
+
 
 
 
@@ -163,6 +164,22 @@ function Appbar(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  // const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
+
+  // useEffect(() => {
+  //   localStorage.setItem("darkMode", JSON.stringify(darkMode));
+
+  //   if (darkMode) {
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //   }
+  // }, [darkMode]);
+
+
+
+
+
 
   // eslint-disable-next-line 
   const [open, setOpen] = useState(false);
@@ -322,25 +339,25 @@ function Appbar(props) {
               <List button className={classes.nested}>
                 <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
+                  <ListItemText primary="Olivia Rhyne" style={{ marginLeft: "20px" }} />
                 </Box>
               </List>
               <List button className={classes.nested}>
                 <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="user" />
-                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
+                  <ListItemText primary="Olivia Rhyne" style={{ marginLeft: "20px" }} />
                 </Box>
               </List>
               <List button className={classes.nested}>
                 <Box style={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
+                  <ListItemText primary="Olivia Rhyne" style={{ marginLeft: "20px" }} />
                 </Box>
               </List>
               <List button className={classes.nested}>
                 <Box sx={{ display: "flex", alignItems: "center", marginLeft: "-10px" }}>
                   <img src={Img} alt="" />
-                  <ListItemText primary="Olivia Rhyne" style={{marginLeft: "20px"}}/>
+                  <ListItemText primary="Olivia Rhyne" style={{ marginLeft: "20px" }} />
                 </Box>
               </List>
             </List>
@@ -365,7 +382,7 @@ function Appbar(props) {
               edge="start"
               onClick={handleDrawerToggle}
               className={classes.menuButton}
-              style={{ color: "red" }}
+              style={{ color: "#ba5d00" }}
             >
               <MenuIcon />
             </IconButton>
@@ -386,6 +403,11 @@ function Appbar(props) {
               {/* <div className={classes.notificationD} > */}
               <Box sx={{ display: "flex", gap: "5px", justifyContent: "center", alignItems: "center" }}>
                 <NotificationsNoneIcon style={{ marginRight: "40px" }} />
+{/* 
+                <span className="" onClick={() => setDarkMode(!darkMode)}>
+
+                  <SettingsOutlinedIcon style={{ cursor: "pointer" }} />
+                </span> */}
 
                 <img src={Img2} alt="person" />
                 <Box>

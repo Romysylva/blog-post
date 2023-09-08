@@ -86,7 +86,7 @@ const RenderComments = ({
                 comments.map((item, index) => {
                     return (
 
-                        <Box key={index} sx={{ border: "1px solid #f2f2f2", my: 2, px: 1, borderRadius: '5px' }}>
+                        <Box key={index} sx={{ border: "1px solid lightgrey", my: 2, px: 1, borderRadius: '5px', width: "100%" }}>
 
                             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pt: 2, }}>
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
